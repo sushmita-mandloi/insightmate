@@ -21,8 +21,6 @@ if "mode" not in st.session_state:
     st.session_state.mode = "Data Analyst"
 if "df" not in st.session_state:
     st.session_state.df = None
-if "resume_path" not in st.session_state:
-    st.session_state.resume_path = None
 
 st.title("🤖 InsightMate")
 st.caption("AI-powered Data Analysis + Placement Assistant")
@@ -62,14 +60,4 @@ if st.session_state.mode == "Data Analyst":
         with st.expander("📋 Data Preview"):
             st.dataframe(df.head())
         st.subheader("📈 Quick Charts")
-        chart_type = st.selectbox("Chart type", ["bar", "pie", "line", "scatter"])
-        cat_cols = [c for c in df.columns if df[c].dtype == 'object']
-        num_cols = [c for c in df.columns if df[c].dtype in ['int64', 'float64']]
-        col_x = st.selectbox("X axis (category)", cat_cols if cat_cols else df.columns.tolist())
-        col_y = st.selectbox("Y axis (numeric)", num_cols if num_cols else df.columns.tolist())
-        if st.button("🎨 Generate Chart"):
-            instruction = f"{chart_type} chart of {col_y} by {col_x}"
-            result = generate_chart(instruction)
-            chart = get_last_chart()
-            if chart:
-                st.plotly_chart(chart, use_container_width=True)
+        chart_type = st.selectbox("Chart type",
