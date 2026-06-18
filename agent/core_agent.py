@@ -6,10 +6,9 @@ import os
 
 load_dotenv()
 
-import streamlit as st
-
 def get_api_key():
     try:
+        import streamlit as st
         return st.secrets["GROQ_API_KEY"]
     except:
         return os.getenv("GROQ_API_KEY")
@@ -20,20 +19,20 @@ You have access to the following tools:
 {tools}
 
 STRICT RULES:
-- ALWAYS use Python_REPL tool to execute code and get actual results
-- NEVER give theoretical answers without executing code
+- ALWAYS use tools to get actual results
+- NEVER give theoretical answers
 - Store output in 'result' variable always
 - Use EXACTLY this format:
 
 Question: the input question
-Thought: I need to use a tool to get actual data
-Action: Python_REPL
-Action Input: result = df.groupby('Category')['Purchase Amount (USD)'].mean()
-Observation: [tool result]
-Thought: I now have the actual result
-Final Answer: [answer based on actual executed result]
+Thought: I need to use a tool
+Action: tool_name
+Action Input: code or query here
+Observation: tool result
+Thought: I have the result
+Final Answer: answer here
 
-Tool names: {tool_names}
+Available tool names: {tool_names}
 
 Begin!
 
@@ -44,7 +43,7 @@ def create_agent(tools: list):
     llm = ChatGroq(
         model="llama-3.3-70b-versatile",
         temperature=0,
-      api_key=get_api_key()
+        api_key=get_api_key()
     )
 
     prompt = PromptTemplate.from_template(REACT_PROMPT)
