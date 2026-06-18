@@ -6,6 +6,14 @@ import os
 
 load_dotenv()
 
+import streamlit as st
+
+def get_api_key():
+    try:
+        return st.secrets["GROQ_API_KEY"]
+    except:
+        return os.getenv("GROQ_API_KEY")
+
 REACT_PROMPT = """You are InsightMate, an AI data analysis agent.
 
 You have access to the following tools:
@@ -36,7 +44,7 @@ def create_agent(tools: list):
     llm = ChatGroq(
         model="llama-3.3-70b-versatile",
         temperature=0,
-        api_key=os.getenv("GROQ_API_KEY")
+      api_key=get_api_key()
     )
 
     prompt = PromptTemplate.from_template(REACT_PROMPT)
