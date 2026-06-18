@@ -113,4 +113,4 @@ if prompt := st.chat_input("Kuch bhi poochho..."):
     else:
         with st.chat_message("assistant"):
             st.write("Pehle file upload karo!")
-Commit karo. Batao! 🚀
+
